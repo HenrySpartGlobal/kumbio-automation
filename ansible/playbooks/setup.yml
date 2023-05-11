@@ -1,0 +1,43 @@
+---
+- name: Create a new user and Download and Install docker
+  hosts: prod # check /inventories/local.ini
+  become: yes
+  vars_files:
+    - ../secrets/secrets.yml
+
+  tasks:
+    - name: Download and install Docker
+      shell: curl -fsSL https://get.docker.com | sh
+
+    - name: Create the new user
+      ansible.builtin.user:
+        name: "{{ user }}"
+        password: "{{ password }}"
+        shell: /bin/bash
+        create_home: yes
+        state: present
+        groups: sudo
+        append: yes
+
+    - name: Add the new user to the Docker group
+      ansible.builtin.user:
+        name: "{{ user }}"
+        groups: docker
+        append: yes
+
+    - name: Create .ssh directory for the user
+      ansible.builtin.file:
+        path: "/home/{{ user }}/.ssh"
+        state: directory
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0700
+
+    - name: Copy authorized_keys file from root user
+      ansible.builtin.copy:
+        src: "/root/.ssh/authorized_keys"
+        dest: "/home/{{ user }}/.ssh/authorized_keys"
+        remote_src: True
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0600
