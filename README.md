@@ -39,7 +39,7 @@ This will run the script on the server to automatically setup kumbio server and 
 # Para usar esto:
 1. Instala el agente de Ansible:
    1. https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pip-install
-   2. Clona este repositorio en tu máquina local git clone git@github.com:HenrySpartGlobal/kumbio-automation.git
+   2. Clona este repositorio en tu máquina local `git clone git@github.com:HenrySpartGlobal/kumbio-automation.git`
 
 ## Conectar con Ansible
 1. En tu máquina local, navega hasta el directorio de tu proyecto (donde se encuentra el directorio kumbio-automation) y genera un nuevo par de claves SSH:
